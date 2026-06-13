@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlphaVision India | Indian Stock Market AI Forecast Platform</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- ApexCharts CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-chart-line-up logo-icon text-groww"></i>
+            <span class="logo-title">Alpha<span class="logo-highlight">Vision</span> <span class="logo-country">India</span></span>
+            <span class="badge-ai">NSE / BSE</span>
+        </div>
+        
+        <div class="search-container">
+            <div class="search-bar-container">
+                <i class="fa-solid fa-search search-icon"></i>
+                <input type="text" id="stock-search" placeholder="Search Indian Stocks (e.g. Reliance, TCS, Zomato)..." autocomplete="off">
+                <button id="voice-search-btn" title="Voice Search"><i class="fa-solid fa-microphone"></i></button>
+                <button id="search-btn">Analyze</button>
+            </div>
+            <!-- Autocomplete suggestions dropdown -->
+            <div class="autocomplete-dropdown" id="autocomplete-results"></div>
+        </div>
+        
+        <div class="nav-actions">
+            <button id="theme-toggle" class="nav-btn" title="Toggle Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <button id="watchlist-toggle-btn" class="nav-btn" title="Watchlist">
+                <i class="fa-solid fa-star"></i>
+            </button>
+            <button id="portfolio-toggle-btn" class="nav-btn" title="Portfolio">
+                <i class="fa-solid fa-briefcase"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="dashboard-grid">
+        <!-- Sidebar: Market Pulse -->
+        <aside class="sidebar-panel">
+            <div class="panel-header">
+                <h3><i class="fa-solid fa-globe text-groww"></i> NIFTY & BSE Tickers</h3>
+            </div>
+            <div class="panel-content scrollable">
+                <div class="market-breadth-container">
+                    <h4>Market Breadth (NIFTY 50)</h4>
+                    <div class="breadth-bar">
+                        <div class="breadth-advancing" id="breadth-adv-pct" style="width: 62%;">62%</div>
+                        <div class="breadth-declining" id="breadth-dec-pct" style="width: 38%;">38%</div>
+                    </div>
+                    <div class="breadth-labels">
+                        <span class="text-green"><span id="breadth-adv">31</span> Advancing</span>
+                        <span class="text-red"><span id="breadth-dec">19</span> Declining</span>
+                    </div>
+                </div>
+
+                <div class="list-section">
+                    <h4>Top NSE/BSE Gainers</h4>
+                    <div class="ticker-list" id="top-gainers-list">
+                        <!-- Dynamic content -->
+                    </div>
+                </div>
+
+                <div class="list-section">
+                    <h4>Top NSE/BSE Losers</h4>
+                    <div class="ticker-list" id="top-losers-list">
+                        <!-- Dynamic content -->
+                    </div>
+                </div>
+
+                <div class="list-section">
+                    <h4>Index Sectors</h4>
+                    <div class="sector-list" id="sector-performance-list">
+                        <!-- Dynamic content -->
+                    </div>
+                </div>
+
+                <div class="list-section">
+                    <h4>Economic Calendar (India)</h4>
+                    <div class="calendar-list" id="economic-calendar-list">
+                        <!-- Dynamic content -->
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Dashboard -->
+        <section class="main-panel">
+            <!-- Row 1: Stock Live Header -->
+            <div class="stock-header-card">
+                <div class="stock-meta">
+                    <h1 id="stock-title">RELIANCE.BO</h1>
+                    <span id="stock-name" class="stock-subtitle">Reliance Industries Ltd</span>
+                    <button id="add-watchlist-btn" class="btn-outline-star"><i class="fa-regular fa-star"></i> Watchlist</button>
+                    <button id="add-portfolio-btn" class="btn-outline-portfolio"><i class="fa-solid fa-plus"></i> Portfolio</button>
+                </div>
+                <div class="stock-prices">
+                    <div class="live-price-container">
+                        <span id="live-price" class="price-val">₹2,480.15</span>
+                        <span id="price-change" class="change-val text-green">+₹142.40 (+6.10%)</span>
+                    </div>
+                    <div class="market-status">
+                        <span class="status-indicator live"></span> LIVE INDIAN MARKET DATA
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 2: AI Ensemble Output Cards -->
+            <div class="predict-cards-grid">
+                <div class="card card-open-prediction">
+                    <div class="card-icon"><i class="fa-solid fa-door-open"></i></div>
+                    <div class="card-info">
+                        <h4>AI Next-Day Open</h4>
+                        <div class="pred-price-main" id="pred-open-val-card">₹2,492.50</div>
+                        <div class="pred-subtext">Estimated tomorrow open price</div>
+                    </div>
+                </div>
+
+                <div class="card card-prediction">
+                    <div class="card-icon"><i class="fa-solid fa-robot"></i></div>
+                    <div class="card-info">
+                        <h4>AI Next-Day Close</h4>
+                        <div class="pred-price-main" id="pred-close-val">₹2,512.30</div>
+                        <div class="pred-subtext">Estimated tomorrow close price</div>
+                    </div>
+                </div>
+
+                <div class="card card-recommendation">
+                    <div class="card-icon"><i class="fa-solid fa-arrows-to-dot"></i></div>
+                    <div class="card-info">
+                        <h4>AI Recommendation</h4>
+                        <div class="recommend-badge buy" id="pred-recommendation">STRONG BUY</div>
+                        <div class="pred-subtext">Groww/Zerodha Signal Agreement</div>
+                    </div>
+                </div>
+
+                <div class="card card-confidence">
+                    <div class="card-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    <div class="card-info">
+                        <h4>Confidence Score</h4>
+                        <div class="confidence-val" id="pred-confidence">84.5%</div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" id="confidence-bar" style="width: 84.5%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-sentiment">
+                    <div class="card-icon"><i class="fa-solid fa-newspaper"></i></div>
+                    <div class="card-info">
+                        <h4>Indian News Sentiment</h4>
+                        <div class="sentiment-val text-green" id="pred-sentiment">POSITIVE</div>
+                        <div class="pred-subtext">Score: <strong id="pred-sentiment-score">0.65</strong></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 3: Interactive Candlestick Chart & Details -->
+            <div class="chart-section-grid">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <div class="chart-tabs">
+                            <button class="chart-tab active" data-range="30">Historical (30 Days)</button>
+                            <button class="chart-tab" id="backtest-tab" data-range="backtest">Backtest Engine</button>
+                        </div>
+                        <div class="chart-actions">
+                            <span class="chart-tag"><i class="fa-solid fa-chart-line"></i> Candlestick + MA</span>
+                        </div>
+                    </div>
+                    <div id="main-stock-chart" class="chart-body"></div>
+                </div>
+
+                <div class="technical-stats-panel">
+                    <h3>Tomorrow Forecast Range</h3>
+                    <table class="forecast-table">
+                        <tr>
+                            <td><i class="fa-solid fa-door-open"></i> Predicted Open</td>
+                            <td class="text-right" id="pred-open-val">₹2,492.50</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa-solid fa-arrow-up"></i> Predicted High</td>
+                            <td class="text-right text-green" id="pred-high-val">₹2,525.10</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa-solid fa-arrow-down"></i> Predicted Low</td>
+                            <td class="text-right text-red" id="pred-low-val">₹2,475.15</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa-solid fa-bullseye"></i> Target Close</td>
+                            <td class="text-right font-bold" id="pred-close-val-sub">₹2,512.30</td>
+                        </tr>
+                    </table>
+
+                    <h3 class="margin-top">Key Stats</h3>
+                    <table class="forecast-table">
+                        <tr>
+                            <td>Market Cap</td>
+                            <td class="text-right" id="stat-mcap">₹16.8T</td>
+                        </tr>
+                        <tr>
+                            <td>P/E Ratio</td>
+                            <td class="text-right" id="stat-pe">24.5</td>
+                        </tr>
+                        <tr>
+                            <td>52W High</td>
+                            <td class="text-right text-green" id="stat-52whigh">₹2,630.00</td>
+                        </tr>
+                        <tr>
+                            <td>52W Low</td>
+                            <td class="text-right text-red" id="stat-52wlow">₹2,120.00</td>
+                        </tr>
+                    </table>
+
+                    <h3 class="margin-top">Risk Analysis</h3>
+                    <div class="risk-meter-container">
+                        <div class="risk-meta">
+                            <span>Risk Score: <strong id="risk-score-val">28.4/100</strong></span>
+                            <span id="risk-badge" class="risk-badge-low">LOW</span>
+                        </div>
+                        <div class="risk-bar-track">
+                            <div class="risk-bar-fill" id="risk-fill" style="width: 28.4%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommendation Explanation Reason List & Prediction History -->
+            <div class="lower-dashboard-grid margin-bottom">
+                <div class="card-panel">
+                    <div class="panel-header">
+                        <h3><i class="fa-solid fa-brain text-groww"></i> AI Recommendation Reasoning</h3>
+                    </div>
+                    <div class="panel-content scrollable">
+                        <ul class="reasoning-list" id="recommendation-reasons-list">
+                            <!-- Dynamic generated bullets -->
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card-panel">
+                    <div class="panel-header">
+                        <h3><i class="fa-solid fa-history text-groww"></i> Prediction History Logs</h3>
+                    </div>
+                    <div class="panel-content scrollable">
+                        <div class="prediction-history-list" id="prediction-history-list">
+                            <!-- Dynamic logs -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 4: Explainable AI & News Panel -->
+            <div class="lower-dashboard-grid">
+                <div class="card-panel">
+                    <div class="panel-header">
+                        <h3><i class="fa-solid fa-microchip text-groww"></i> Feature Importance (Explainable AI)</h3>
+                    </div>
+                    <div class="panel-content">
+                        <div id="feature-importance-chart"></div>
+                    </div>
+                </div>
+
+                <div class="card-panel">
+                    <div class="panel-header">
+                        <h3><i class="fa-solid fa-comments text-groww"></i> NLP Indian News Sentiment</h3>
+                    </div>
+                    <div class="panel-content scrollable max-height-300" id="news-articles-list">
+                        <!-- Dynamic news headlines -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Slideout Sidebars -->
+    <div class="overlay" id="dashboard-overlay"></div>
+    
+    <div class="slideout-drawer" id="watchlist-drawer">
+        <div class="drawer-header">
+            <h3><i class="fa-solid fa-star text-gold"></i> Live Watchlist</h3>
+            <button class="close-drawer" id="close-watchlist"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="drawer-content scrollable">
+            <div class="watchlist-items-list" id="watchlist-items-list">
+                <!-- Dynamic Watchlist Items -->
+            </div>
+        </div>
+    </div>
+
+    <div class="slideout-drawer" id="portfolio-drawer">
+        <div class="drawer-header">
+            <h3><i class="fa-solid fa-briefcase text-groww"></i> Asset Portfolio (₹)</h3>
+            <button class="close-drawer" id="close-portfolio"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="drawer-content scrollable">
+            <div class="portfolio-summary-card">
+                <div>Total Portfolio Value</div>
+                <div class="portfolio-total-val" id="port-total-val">₹0.00</div>
+                <div class="portfolio-total-profit text-green" id="port-total-profit">+₹0.00 (+0.0%)</div>
+            </div>
+            
+            <div class="add-holding-form">
+                <h4>Add Asset Transaction</h4>
+                <div class="form-grid">
+                    <input type="text" id="port-add-symbol" placeholder="Symbol" class="form-input">
+                    <input type="number" id="port-add-shares" placeholder="Shares" class="form-input" min="0.01" step="any">
+                    <input type="number" id="port-add-price" placeholder="Price Paid" class="form-input" min="0.01" step="any">
+                    <button id="add-holding-submit-btn" class="form-btn">Add Asset</button>
+                </div>
+            </div>
+            
+            <div class="portfolio-items-list" id="portfolio-items-list">
+                <!-- Dynamic Portfolio Holdings -->
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Market Assistant Chatbot Floating Drawer -->
+    <div class="chatbot-toggle-btn" id="chatbot-toggle">
+        <i class="fa-solid fa-comment-dots"></i>
+    </div>
+    
+    <div class="chatbot-drawer" id="chatbot-drawer">
+        <div class="chatbot-header">
+            <div class="chatbot-avatar">
+                <i class="fa-solid fa-robot"></i>
+            </div>
+            <div class="chatbot-title-container">
+                <h4>AlphaVision India AI</h4>
+                <span>Financial Markets Assistant</span>
+            </div>
+            <button class="chatbot-close" id="chatbot-close"><i class="fa-solid fa-minus"></i></button>
+        </div>
+        <div class="chatbot-messages" id="chatbot-messages">
+            <div class="chatbot-msg assistant">
+                <div class="msg-bubble">
+                    Namaste! I'm your AlphaVision India market assistant. Ask me about Indian stock forecasts (e.g. Reliance, Zomato), news sentiment, or index risks!
+                </div>
+            </div>
+        </div>
+        <div class="chatbot-input-area">
+            <input type="text" id="chatbot-input-field" placeholder="Ask AlphaVision India AI...">
+            <button id="chatbot-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <!-- Script loading -->
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
