@@ -1,0 +1,19 @@
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Databases & local storage
+data/
+*.db
+*.sqlite
+
+# Environments
+.env
+.venv
+venv/
+env/
+
+# IDE / Editor files
+.vscode/
+.idea/
+.DS_Store
