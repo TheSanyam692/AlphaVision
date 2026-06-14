@@ -1229,44 +1229,89 @@ body {
 }
 
 @media(max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-        height: auto;
-        padding: 15px;
-        gap: 15px;
-        align-items: stretch;
+    /* Prevent double scrollbar issues on mobile devices */
+    body, .main-panel, .dashboard-grid {
+        height: auto !important;
+        overflow: visible !important;
     }
     
-    .logo {
-        justify-content: center;
+    .navbar {
+        height: 60px;
+        padding: 0 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+    /* Hide logo text on mobile to give space to search bar */
+    .logo-title, .badge-ai {
+        display: none !important;
+    }
+    
+    .logo-icon {
+        font-size: 20px;
     }
     
     .search-container {
-        width: 100%;
+        flex: 1;
+        margin: 0 10px;
+        max-width: 60%;
     }
     
-    .nav-actions {
-        justify-content: center;
+    .search-bar-container {
+        height: 36px;
+        padding: 0 8px;
     }
     
-    .dashboard-grid {
-        min-height: calc(100vh - 150px);
+    #stock-search {
+        font-size: 13px;
+    }
+    
+    #voice-search-btn {
+        margin-right: 6px;
+        font-size: 14px;
+    }
+    
+    #search-btn {
+        padding: 4px 10px;
+        font-size: 12px;
+    }
+    
+    .nav-btn {
+        width: 34px;
+        height: 34px;
+        border-radius: 6px;
     }
     
     .main-panel {
-        padding: 15px;
-        height: auto;
+        padding: 15px 12px;
     }
     
+    /* Compact stock header */
     .stock-header-card {
+        padding: 16px;
+        margin-bottom: 15px;
         flex-direction: column;
-        align-items: stretch;
-        gap: 15px;
-        text-align: left;
+        align-items: flex-start;
+        gap: 12px;
     }
     
-    .stock-prices {
-        text-align: left;
+    #stock-title {
+        font-size: 24px;
+    }
+    
+    .stock-subtitle {
+        font-size: 13px;
+        margin-left: 5px;
+        margin-right: 10px;
+    }
+    
+    .price-val {
+        font-size: 24px;
+    }
+    
+    .change-val {
+        font-size: 13px;
     }
     
     .live-price-container {
@@ -1277,47 +1322,37 @@ body {
         justify-content: flex-start;
     }
     
+    /* Sleek 2-column grid for prediction metrics */
     .predict-cards-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
+        gap: 10px;
+        margin-bottom: 15px;
     }
     
-    .slideout-drawer {
-        width: 100%;
-        right: -100%;
+    .card {
+        padding: 12px 10px;
+        gap: 8px;
     }
     
-    .chatbot-drawer {
-        width: calc(100vw - 30px);
-        right: 15px;
-        left: 15px;
-    }
-}
-
-@media(max-width: 480px) {
-    .predict-cards-grid {
-        grid-template-columns: 1fr;
+    .card-icon {
+        font-size: 20px;
     }
     
-    .search-bar-container {
-        padding: 0 8px;
+    .pred-price-main {
+        font-size: 18px;
     }
     
-    #search-btn {
-        padding: 4px 8px;
-        font-size: 11px;
-    }
-    
-    #stock-search {
+    .recommend-badge {
         font-size: 12px;
+        padding: 2px 6px;
     }
     
-    .price-val {
-        font-size: 24px;
+    .confidence-val {
+        font-size: 18px;
     }
     
-    #stock-title {
-        font-size: 26px;
+    .chart-container {
+        padding: 12px;
     }
     
     .chart-header {
@@ -1334,7 +1369,44 @@ body {
     .chart-tab {
         flex: 1;
         text-align: center;
-        padding: 6px 4px;
+        padding: 6px 2px;
         font-size: 11px;
+    }
+    
+    .slideout-drawer {
+        width: 100% !important;
+        right: -100%;
+    }
+    
+    .chatbot-drawer {
+        width: calc(100vw - 24px);
+        right: 12px;
+        left: 12px;
+        bottom: 80px;
+        height: 400px;
+    }
+}
+
+@media(max-width: 480px) {
+    .predict-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Make the 5th card (Sentiment) span full width for clean alignment */
+    .card-sentiment {
+        grid-column: span 2;
+    }
+    
+    .search-container {
+        max-width: 68%;
+        margin: 0 4px;
+    }
+    
+    .logo-icon {
+        margin-right: 2px;
+    }
+    
+    .navbar {
+        padding: 0 8px;
     }
 }
