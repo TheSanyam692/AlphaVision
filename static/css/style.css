@@ -1373,13 +1373,14 @@ body {
     
     .search-container {
         flex: 1;
-        margin: 0 10px;
-        max-width: 60%;
+        margin: 0 8px;
+        max-width: 75%;
     }
     
     .search-bar-container {
-        height: 36px;
+        height: 38px;
         padding: 0 8px;
+        border-radius: 8px;
     }
     
     #stock-search {
@@ -1403,81 +1404,84 @@ body {
     }
     
     .main-panel {
-        padding: 15px 12px;
+        padding: 12px 8px;
     }
     
     /* Compact stock header */
     .stock-header-card {
-        padding: 16px;
-        margin-bottom: 15px;
+        padding: 14px;
+        margin-bottom: 12px;
         flex-direction: column;
         align-items: flex-start;
-        gap: 12px;
+        gap: 10px;
     }
     
     #stock-title {
-        font-size: 24px;
+        font-size: 22px;
     }
     
     .stock-subtitle {
-        font-size: 13px;
-        margin-left: 5px;
-        margin-right: 10px;
+        font-size: 12px;
+        margin-left: 0;
+        margin-top: 2px;
     }
     
     .price-val {
-        font-size: 24px;
+        font-size: 22px;
     }
     
     .change-val {
-        font-size: 13px;
+        font-size: 12px;
     }
     
     .live-price-container {
         justify-content: flex-start;
+        align-items: baseline;
+        gap: 6px;
     }
     
     .market-status {
         justify-content: flex-start;
+        font-size: 10px;
     }
     
     /* Sleek 2-column grid for prediction metrics */
     .predict-cards-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-        margin-bottom: 15px;
+        gap: 8px;
+        margin-bottom: 12px;
     }
     
     .card {
-        padding: 12px 10px;
-        gap: 8px;
+        padding: 10px;
+        gap: 6px;
     }
     
     .card-icon {
-        font-size: 20px;
-    }
-    
-    .pred-price-main {
         font-size: 18px;
     }
     
+    .pred-price-main {
+        font-size: 16px;
+    }
+    
     .recommend-badge {
-        font-size: 12px;
+        font-size: 11px;
         padding: 2px 6px;
     }
     
     .confidence-val {
-        font-size: 18px;
+        font-size: 16px;
     }
     
     .chart-container {
-        padding: 12px;
+        padding: 10px;
     }
     
     .chart-header {
         flex-direction: column;
         align-items: flex-start;
-        gap: 10px;
+        gap: 8px;
     }
     
     .chart-tabs {
@@ -1498,21 +1502,29 @@ body {
     }
     
     .chatbot-drawer {
-        width: calc(100vw - 24px);
-        right: 12px;
-        left: 12px;
-        bottom: 80px;
-        height: 400px;
+        width: calc(100vw - 20px);
+        right: 10px;
+        left: 10px;
+        bottom: 70px;
+        height: 380px;
+    }
+    
+    .chatbot-toggle-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 18px;
+        bottom: 15px;
+        right: 15px;
     }
 }
 
 @media(max-width: 580px) {
     /* Optimize prices display for mobile - stack them clearly & make estimated vs actual pricing prominent */
     .stock-header-card {
-        padding: 14px !important;
+        padding: 12px !important;
         display: flex !important;
         flex-direction: column !important;
-        gap: 12px !important;
+        gap: 10px !important;
         background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-card) 100%) !important;
         border: 1px solid var(--border-color) !important;
     }
@@ -1522,7 +1534,7 @@ body {
         display: flex !important;
         flex-wrap: wrap !important;
         align-items: center !important;
-        gap: 8px !important;
+        gap: 6px !important;
     }
 
     #stock-title {
@@ -1550,26 +1562,26 @@ body {
     .live-price-container {
         display: flex !important;
         align-items: baseline !important;
-        gap: 8px !important;
+        gap: 6px !important;
     }
 
     .price-val {
-        font-size: 22px !important;
+        font-size: 20px !important;
         font-weight: 800 !important;
     }
 
     .change-val {
-        font-size: 12px !important;
+        font-size: 11px !important;
     }
 
     /* Target predictions card display for absolute mobile readability */
     .predict-cards-grid {
         grid-template-columns: 1fr !important; /* Stack vertically on very small mobile for maximum clarity */
-        gap: 8px !important;
+        gap: 6px !important;
     }
 
     .card {
-        padding: 12px !important;
+        padding: 10px !important;
         display: flex !important;
         flex-direction: row !important;
         align-items: center !important;
@@ -1582,11 +1594,11 @@ body {
     }
 
     .card-icon {
-        margin-right: 12px !important;
+        margin-right: 10px !important;
     }
 
     .card h4 {
-        font-size: 11px !important;
+        font-size: 10px !important;
         text-transform: uppercase !important;
         letter-spacing: 0.5px !important;
         color: var(--text-secondary) !important;
@@ -1594,7 +1606,7 @@ body {
     }
 
     .pred-price-main {
-        font-size: 20px !important;
+        font-size: 18px !important;
         font-weight: 800 !important;
         color: var(--accent-color) !important;
     }
@@ -1604,23 +1616,23 @@ body {
     }
 
     .recommend-badge {
-        font-size: 11px !important;
+        font-size: 10px !important;
         display: inline-block !important;
         margin-top: 2px !important;
     }
 
     .confidence-val {
-        font-size: 18px !important;
+        font-size: 16px !important;
         margin-bottom: 2px !important;
     }
 
     /* Adjust Chart & Stats for Mobile */
     .chart-section-grid {
-        gap: 12px !important;
+        gap: 10px !important;
     }
 
     .technical-stats-panel {
-        padding: 14px !important;
+        padding: 12px !important;
     }
 
     .forecast-table td {
@@ -1631,7 +1643,7 @@ body {
 
 @media(max-width: 480px) {
     .search-container {
-        max-width: 68%;
+        max-width: 70%;
         margin: 0 4px;
     }
     
@@ -1640,6 +1652,6 @@ body {
     }
     
     .navbar {
-        padding: 0 8px;
+        padding: 0 6px;
     }
 }
