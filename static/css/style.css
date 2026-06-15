@@ -1506,16 +1506,130 @@ body {
     }
 }
 
-@media(max-width: 480px) {
+@media(max-width: 580px) {
+    /* Optimize prices display for mobile - stack them clearly & make estimated vs actual pricing prominent */
+    .stock-header-card {
+        padding: 14px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 12px !important;
+        background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-card) 100%) !important;
+        border: 1px solid var(--border-color) !important;
+    }
+
+    .stock-meta {
+        width: 100% !important;
+        display: flex !important;
+        flex-wrap: wrap !important;
+        align-items: center !important;
+        gap: 8px !important;
+    }
+
+    #stock-title {
+        font-size: 20px !important;
+        margin: 0 !important;
+    }
+
+    .stock-subtitle {
+        font-size: 12px !important;
+        display: block !important;
+        width: 100% !important;
+        margin: 0 !important;
+        color: var(--text-secondary) !important;
+    }
+
+    .stock-prices {
+        width: 100% !important;
+        padding-top: 8px !important;
+        border-top: 1px dashed var(--border-color) !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 4px !important;
+    }
+
+    .live-price-container {
+        display: flex !important;
+        align-items: baseline !important;
+        gap: 8px !important;
+    }
+
+    .price-val {
+        font-size: 22px !important;
+        font-weight: 800 !important;
+    }
+
+    .change-val {
+        font-size: 12px !important;
+    }
+
+    /* Target predictions card display for absolute mobile readability */
     .predict-cards-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr !important; /* Stack vertically on very small mobile for maximum clarity */
+        gap: 8px !important;
     }
-    
-    /* Make the 5th card (Sentiment) span full width for clean alignment */
-    .card-sentiment {
-        grid-column: span 2;
+
+    .card {
+        padding: 12px !important;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
     }
-    
+
+    .card-info {
+        text-align: right !important;
+        flex: 1 !important;
+    }
+
+    .card-icon {
+        margin-right: 12px !important;
+    }
+
+    .card h4 {
+        font-size: 11px !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+        color: var(--text-secondary) !important;
+        margin-bottom: 2px !important;
+    }
+
+    .pred-price-main {
+        font-size: 20px !important;
+        font-weight: 800 !important;
+        color: var(--accent-color) !important;
+    }
+
+    .card-prediction .pred-price-main {
+        color: var(--gold) !important; /* Emphasize Close prediction */
+    }
+
+    .recommend-badge {
+        font-size: 11px !important;
+        display: inline-block !important;
+        margin-top: 2px !important;
+    }
+
+    .confidence-val {
+        font-size: 18px !important;
+        margin-bottom: 2px !important;
+    }
+
+    /* Adjust Chart & Stats for Mobile */
+    .chart-section-grid {
+        gap: 12px !important;
+    }
+
+    .technical-stats-panel {
+        padding: 14px !important;
+    }
+
+    .forecast-table td {
+        font-size: 12px !important;
+        padding: 6px 0 !important;
+    }
+}
+
+@media(max-width: 480px) {
     .search-container {
         max-width: 68%;
         margin: 0 4px;
