@@ -1,10 +1,10 @@
 // State Variables
-let currentSymbol = "RELIANCE.BO";
+let currentSymbol = "";
 let mainChart = null;
 let importanceChart = null;
 let currentChartType = "30";
 
-// Formatting utility for Indian Rupee
+// Formatting utility for Indian Rupee (₹)
 function formatINR(val, isCompact = false) {
     if (val === undefined || val === null || isNaN(val)) return "₹0.00";
     
@@ -14,7 +14,6 @@ function formatINR(val, isCompact = false) {
         return `₹${(val / 100000).toFixed(2)}L`;
     }
     
-    // Format standard Indian comma system
     const formatted = parseFloat(val).toFixed(2);
     const parts = formatted.split(".");
     let lastThree = parts[0].substring(parts[0].length - 3);
@@ -28,66 +27,39 @@ function formatINR(val, isCompact = false) {
 
 // Document Ready
 document.addEventListener("DOMContentLoaded", () => {
-    // Initial Load
+    // Initial Load - load summaries but DO NOT search default stock
     fetchMarketSummary();
-    loadStockData(currentSymbol);
     loadWatchlist();
     loadPortfolio();
 
-    // Event Listeners
-    document.getElementById("search-btn").addEventListener("click", handleSearch);
+    // Reset view to landing state on click of the TradeUp Logo
+    document.getElementById("nav-logo").addEventListener("click", resetToLanding);
+
+    // Event Listeners for Navigation Search
+    document.getElementById("search-btn").addEventListener("click", () => handleSearch("stock-search"));
     document.getElementById("stock-search").addEventListener("keypress", (e) => {
-        if (e.key === "Enter") handleSearch();
+        if (e.key === "Enter") handleSearch("stock-search");
     });
 
-    // Autocomplete Keyboard & Input Handling
-    const searchInput = document.getElementById("stock-search");
-    const resultsContainer = document.getElementById("autocomplete-results");
-
-    searchInput.addEventListener("input", async (e) => {
-        const query = e.target.value.trim();
-        if (query.length < 2) {
-            resultsContainer.style.display = "none";
-            return;
-        }
-
-        try {
-            const res = await fetch(`/api/stocks/search?q=${query}`);
-            const data = await res.json();
-            
-            if (data.length === 0) {
-                resultsContainer.style.display = "none";
-                return;
-            }
-
-            resultsContainer.innerHTML = "";
-            resultsContainer.style.display = "block";
-
-            data.forEach(item => {
-                const row = document.createElement("div");
-                row.className = "autocomplete-row";
-                row.innerHTML = `
-                    <span class="autocomplete-symbol">${item.symbol}</span>
-                    <span class="autocomplete-name">${item.name}</span>
-                `;
-                row.addEventListener("click", () => {
-                    searchInput.value = item.symbol;
-                    resultsContainer.style.display = "none";
-                    handleSearch();
-                });
-                resultsContainer.appendChild(row);
-            });
-        } catch (err) {
-            console.error("Autocomplete search error", err);
-        }
+    // Event Listeners for Landing Search
+    document.getElementById("landing-search-btn").addEventListener("click", () => handleSearch("landing-stock-search"));
+    document.getElementById("landing-stock-search").addEventListener("keypress", (e) => {
+        if (e.key === "Enter") handleSearch("landing-stock-search");
     });
 
-    // Close suggestions if clicked outside
-    document.addEventListener("click", (e) => {
-        if (e.target !== searchInput && e.target !== resultsContainer) {
-            resultsContainer.style.display = "none";
-        }
+    // Popular Quick Tags
+    document.querySelectorAll(".quick-tag-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            const sym = e.target.getAttribute("data-sym");
+            loadStockData(sym);
+        });
     });
+
+    // Autocomplete Setup for Navigation Search
+    setupAutocomplete("stock-search", "autocomplete-results");
+
+    // Autocomplete Setup for Landing Page Search
+    setupAutocomplete("landing-stock-search", "landing-autocomplete-results");
 
     // Theme Toggle
     const themeBtn = document.getElementById("theme-toggle");
@@ -104,13 +76,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Setup Drawer Drawers
+    // Setup Drawers
     setupDrawers();
 
-    // Voice recognition
-    setupVoiceSearch();
+    // Voice recognition for both inputs
+    setupVoiceSearch("voice-search-btn", "stock-search", () => handleSearch("stock-search"));
+    setupVoiceSearch("landing-voice-btn", "landing-stock-search", () => handleSearch("landing-stock-search"));
 
-    // Chatbot toggler
+    // Chatbot Setup
     setupChatbot();
     
     // Watchlist Add
@@ -142,6 +115,69 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+// Setup Autocomplete inputs
+function setupAutocomplete(inputId, resultsId) {
+    const input = document.getElementById(inputId);
+    const container = document.getElementById(resultsId);
+
+    input.addEventListener("input", async (e) => {
+        const query = e.target.value.trim();
+        if (query.length < 2) {
+            container.style.display = "none";
+            return;
+        }
+
+        try {
+            const res = await fetch(`/api/stocks/search?q=${query}`);
+            const data = await res.json();
+            
+            if (data.length === 0) {
+                container.style.display = "none";
+                return;
+            }
+
+            container.innerHTML = "";
+            container.style.display = "block";
+
+            data.forEach(item => {
+                const row = document.createElement("div");
+                row.className = "autocomplete-row";
+                row.innerHTML = `
+                    <span class="autocomplete-symbol">${item.symbol}</span>
+                    <span class="autocomplete-name">${item.name}</span>
+                `;
+                row.addEventListener("click", () => {
+                    input.value = item.symbol;
+                    container.style.display = "none";
+                    loadStockData(item.symbol);
+                });
+                container.appendChild(row);
+            });
+        } catch (err) {
+            console.error("Autocomplete search error", err);
+        }
+    });
+
+    // Hide suggestions if clicked elsewhere
+    document.addEventListener("click", (e) => {
+        if (e.target !== input && e.target !== container) {
+            container.style.display = "none";
+        }
+    });
+}
+
+// Reset view back to default clean Landing page state
+function resetToLanding() {
+    document.getElementById("landing-view").style.display = "flex";
+    document.getElementById("dashboard-view").style.display = "none";
+    document.getElementById("nav-search-container").style.display = "none";
+    
+    // Clear inputs
+    document.getElementById("stock-search").value = "";
+    document.getElementById("landing-stock-search").value = "";
+    currentSymbol = "";
+}
+
 // Drawers Setup
 function setupDrawers() {
     const overlay = document.getElementById("dashboard-overlay");
@@ -172,23 +208,31 @@ function closeDrawers() {
     document.getElementById("portfolio-drawer").classList.remove("open");
 }
 
-// Search Handler
-function handleSearch() {
-    const val = document.getElementById("stock-search").value.trim().toUpperCase();
+// Search Logic
+function handleSearch(inputId) {
+    const val = document.getElementById(inputId).value.trim();
     if (val) {
-        currentSymbol = val;
         document.querySelectorAll(".chart-tab").forEach(t => t.classList.remove("active"));
         document.querySelector("[data-range='30']").classList.add("active");
-        loadStockData(currentSymbol);
+        loadStockData(val);
     }
 }
 
-// API Load Stock Data
+// API Load Ticker Data & Switch view states
 async function loadStockData(symbol) {
     try {
+        // Show loading state/spinner if needed
         const response = await fetch(`/api/stocks/predict?symbol=${symbol}`);
-        if (!response.ok) throw new Error("Stock not found.");
+        if (!response.ok) throw new Error("Stock ticker not found.");
         const data = await response.json();
+
+        // 1. Swap view panels
+        document.getElementById("landing-view").style.display = "none";
+        document.getElementById("dashboard-view").style.display = "grid";
+        document.getElementById("nav-search-container").style.display = "block";
+
+        // Keep nav search input in sync
+        document.getElementById("stock-search").value = data.symbol;
 
         currentSymbol = data.symbol;
         document.getElementById("stock-title").innerText = data.symbol;
@@ -206,13 +250,10 @@ async function loadStockData(symbol) {
         document.getElementById("pred-close-val").innerText = formatINR(data.prediction.predicted_close);
         document.getElementById("pred-close-val-sub").innerText = formatINR(data.prediction.predicted_close);
         document.getElementById("pred-open-val").innerText = formatINR(data.prediction.predicted_open);
-        document.getElementById("pred-high-val").innerText = formatINR(data.prediction.predicted_high);
-        document.getElementById("pred-low-val").innerText = formatINR(data.prediction.predicted_low);
 
         // Stats Box
-        // Check if market cap is set
         const mcap = data.live.market_cap;
-        document.getElementById("stat-mcap").innerText = mcap > 10000000 ? formatINR(mcap, true) : "₹12.4T";
+        document.getElementById("stat-mcap").innerText = mcap > 10000000 ? formatINR(mcap, true) : "₹12.4Cr";
         document.getElementById("stat-pe").innerText = data.live.pe_ratio ? data.live.pe_ratio.toFixed(1) : "24.5";
         document.getElementById("stat-52whigh").innerText = formatINR(data.live.high_52w);
         document.getElementById("stat-52wlow").innerText = formatINR(data.live.low_52w);
@@ -222,7 +263,7 @@ async function loadStockData(symbol) {
         recBadge.innerText = data.prediction.recommendation;
         recBadge.className = `recommend-badge ${data.prediction.recommendation.toLowerCase().replace(" ", "_")}`;
 
-        // Recommendation detailed bullets
+        // Recommendation detailed reasons list
         const reasonsList = document.getElementById("recommendation-reasons-list");
         reasonsList.innerHTML = "";
         if (data.prediction.reasons && data.prediction.reasons.length > 0) {
@@ -230,7 +271,7 @@ async function loadStockData(symbol) {
                 reasonsList.innerHTML += `<li>${r}</li>`;
             });
         } else {
-            reasonsList.innerHTML = `<li>No major anomalies detected. System indicates standard trend hold.</li>`;
+            reasonsList.innerHTML = `<li>No major volatility signals detected. Asset displays standard trading momentum.</li>`;
         }
 
         // Confidence
@@ -266,7 +307,7 @@ async function loadStockData(symbol) {
         renderCandleChart(data.chart_data, data.prediction);
         renderFeatureImportance(data.features_importance);
 
-        // History
+        // History logs
         const histContainer = document.getElementById("prediction-history-list");
         histContainer.innerHTML = "";
         data.history.forEach(h => {
@@ -300,11 +341,11 @@ async function loadStockData(symbol) {
 
     } catch (err) {
         console.error(err);
-        alert("Stock predict data failed to load. Ensure the symbol is active on NSE.");
+        alert("Ticker not found on BSE. Please check spelling and try again.");
     }
 }
 
-// Chart Renderer
+// Chart Renderers
 function renderCandleChart(history, forecast) {
     const options = {
         series: [{
@@ -352,7 +393,6 @@ function renderCandleChart(history, forecast) {
     mainChart.render();
 }
 
-// Backtesting Renderer
 async function loadBacktestingChart(symbol) {
     try {
         const response = await fetch(`/api/stocks/backtest?symbol=${symbol}&months=3`);
@@ -407,7 +447,6 @@ async function loadBacktestingChart(symbol) {
     }
 }
 
-// Feature Importance
 function renderFeatureImportance(importanceList) {
     const options = {
         series: [{
@@ -442,7 +481,6 @@ function renderFeatureImportance(importanceList) {
     importanceChart.render();
 }
 
-// Market summaries
 async function fetchMarketSummary() {
     try {
         const response = await fetch("/api/stocks/market-summary");
@@ -650,16 +688,18 @@ async function removeFromPortfolio(symbol) {
     }
 }
 
-// Speech queries
-function setupVoiceSearch() {
+// Voice queries
+function setupVoiceSearch(btnId, inputId, onSearchCallback) {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) return;
 
     const rec = new SpeechRecognition();
     rec.continuous = false;
-    rec.lang = 'en-IN'; // Set to Indian English for better accent parsing
+    rec.lang = 'en-IN';
 
-    const voiceBtn = document.getElementById("voice-search-btn");
+    const voiceBtn = document.getElementById(btnId);
+    const input = document.getElementById(inputId);
+
     voiceBtn.addEventListener("click", () => {
         rec.start();
         voiceBtn.style.color = "var(--accent-zerodha)";
@@ -667,9 +707,9 @@ function setupVoiceSearch() {
 
     rec.onresult = (e) => {
         const text = e.results[0][0].transcript.trim().replace(/\./g, "");
-        document.getElementById("stock-search").value = text;
+        input.value = text;
         voiceBtn.style.color = "var(--text-secondary)";
-        handleSearch();
+        onSearchCallback();
     };
 
     rec.onerror = () => {

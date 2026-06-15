@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AlphaVision India | Indian Stock Market AI Forecast Platform</title>
+    <title>TradeUp | AI Indian Stock Market Predictions</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,24 +17,28 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     
     <!-- Custom Style Sheet -->
-    <link rel="stylesheet" href="/static/css/style.css?v=1.1">
+    <link rel="stylesheet" href="/static/css/style.css?v=1.2">
 </head>
 <body>
+    <!-- Main Header -->
     <header class="navbar">
-        <div class="logo">
-            <i class="fa-solid fa-chart-line-up logo-icon text-groww"></i>
-            <span class="logo-title">Alpha<span class="logo-highlight">Vision</span> <span class="logo-country">India</span></span>
-            <span class="badge-ai">NSE / BSE</span>
+        <div class="logo" id="nav-logo" style="cursor: pointer;">
+            <!-- Creative SVG Logo: Rising chevrons with green accent -->
+            <svg class="logo-svg" viewBox="0 0 24 24" width="28" height="28">
+                <path d="M4 18l6-6 4 4 8-8" stroke="#00d09c" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M22 12V8h-4" stroke="#00d09c" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="logo-title">Trade<span class="logo-highlight">Up</span></span>
+            <span class="badge-ai">AI INSIGHTS</span>
         </div>
         
-        <div class="search-container">
+        <div class="search-container" id="nav-search-container" style="display: none;">
             <div class="search-bar-container">
                 <i class="fa-solid fa-search search-icon"></i>
-                <input type="text" id="stock-search" placeholder="Search Indian Stocks (e.g. Reliance, TCS, Zomato)..." autocomplete="off">
+                <input type="text" id="stock-search" placeholder="Search Indian Stocks (e.g. Reliance, TCS)..." autocomplete="off">
                 <button id="voice-search-btn" title="Voice Search"><i class="fa-solid fa-microphone"></i></button>
                 <button id="search-btn">Analyze</button>
             </div>
-            <!-- Autocomplete suggestions dropdown -->
             <div class="autocomplete-dropdown" id="autocomplete-results"></div>
         </div>
         
@@ -51,7 +55,40 @@
         </div>
     </header>
 
-    <main class="dashboard-grid">
+    <!-- Landing View: Displayed when no stock is searched -->
+    <section class="landing-panel" id="landing-view">
+        <div class="landing-content">
+            <div class="landing-logo-box">
+                <svg class="landing-logo-svg" viewBox="0 0 24 24" width="72" height="72">
+                    <path d="M4 18l6-6 4 4 8-8" stroke="#00d09c" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M22 12V8h-4" stroke="#00d09c" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <h1 class="landing-title">Trade<span class="logo-highlight">Up</span></h1>
+                <p class="landing-tagline">AI-Powered Next-Day Forecasts for Indian Stocks</p>
+            </div>
+            
+            <div class="landing-search-box">
+                <div class="search-bar-container large-search">
+                    <i class="fa-solid fa-search search-icon"></i>
+                    <input type="text" id="landing-stock-search" placeholder="Enter Company Name or Ticker (e.g. Reliance, TCS, Zomato)..." autocomplete="off">
+                    <button id="landing-voice-btn" title="Voice Search"><i class="fa-solid fa-microphone"></i></button>
+                    <button id="landing-search-btn">Analyze Stock</button>
+                </div>
+                <div class="autocomplete-dropdown" id="landing-autocomplete-results"></div>
+            </div>
+            
+            <div class="landing-quick-tags">
+                <span>Popular BSE Stocks:</span>
+                <button class="quick-tag-btn" data-sym="RELIANCE.BO">Reliance</button>
+                <button class="quick-tag-btn" data-sym="TCS.BO">TCS</button>
+                <button class="quick-tag-btn" data-sym="ZOMATO.BO">Zomato</button>
+                <button class="quick-tag-btn" data-sym="TATAMOTORS.BO">Tata Motors</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard View: Displayed only when stock is loaded -->
+    <main class="dashboard-grid" id="dashboard-view" style="display: none;">
         <!-- Sidebar: Market Pulse -->
         <aside class="sidebar-panel">
             <div class="panel-header">
@@ -71,14 +108,14 @@
                 </div>
 
                 <div class="list-section">
-                    <h4>Top NSE/BSE Gainers</h4>
+                    <h4>Top BSE Gainers</h4>
                     <div class="ticker-list" id="top-gainers-list">
                         <!-- Dynamic content -->
                     </div>
                 </div>
 
                 <div class="list-section">
-                    <h4>Top NSE/BSE Losers</h4>
+                    <h4>Top BSE Losers</h4>
                     <div class="ticker-list" id="top-losers-list">
                         <!-- Dynamic content -->
                     </div>
@@ -116,7 +153,7 @@
                         <span id="price-change" class="change-val text-green">+₹142.40 (+6.10%)</span>
                     </div>
                     <div class="market-status">
-                        <span class="status-indicator live"></span> LIVE INDIAN MARKET DATA
+                        <span class="status-indicator live"></span> LIVE BSE MARKET DATA
                     </div>
                 </div>
             </div>
@@ -240,7 +277,7 @@
                 </div>
             </div>
 
-            <!-- Recommendation Explanation Reason List & Prediction History -->
+            <!-- Recommendation Explanation Reasoning List & Prediction History -->
             <div class="lower-dashboard-grid margin-bottom">
                 <div class="card-panel">
                     <div class="panel-header">
@@ -288,7 +325,7 @@
         </section>
     </main>
 
-    <!-- Slideout Sidebars -->
+    <!-- Slideout Drawers -->
     <div class="overlay" id="dashboard-overlay"></div>
     
     <div class="slideout-drawer" id="watchlist-drawer">
@@ -342,7 +379,7 @@
                 <i class="fa-solid fa-robot"></i>
             </div>
             <div class="chatbot-title-container">
-                <h4>AlphaVision India AI</h4>
+                <h4>TradeUp AI</h4>
                 <span>Financial Markets Assistant</span>
             </div>
             <button class="chatbot-close" id="chatbot-close"><i class="fa-solid fa-minus"></i></button>
@@ -350,17 +387,17 @@
         <div class="chatbot-messages" id="chatbot-messages">
             <div class="chatbot-msg assistant">
                 <div class="msg-bubble">
-                    Namaste! I'm your AlphaVision India market assistant. Ask me about Indian stock forecasts (e.g. Reliance, Zomato), news sentiment, or index risks!
+                    Namaste! I'm your TradeUp market assistant. Ask me about Indian stock forecasts (e.g. Reliance, Zomato), news sentiment, or index risks!
                 </div>
             </div>
         </div>
         <div class="chatbot-input-area">
-            <input type="text" id="chatbot-input-field" placeholder="Ask AlphaVision India AI...">
+            <input type="text" id="chatbot-input-field" placeholder="Ask TradeUp AI...">
             <button id="chatbot-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
         </div>
     </div>
 
     <!-- Script loading -->
-    <script src="/static/js/app.js"></script>
+    <script src="/static/js/app.js?v=1.2"></script>
 </body>
 </html>

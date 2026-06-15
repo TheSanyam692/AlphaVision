@@ -29,8 +29,8 @@ init_db()
 
 # Create FastAPI app
 app = FastAPI(
-    title="AlphaVision AI Stock Prediction Platform",
-    description="Bloomberg + TradingView Inspired Financial Intelligence Hub",
+    title="TradeUp AI Stock Prediction Platform",
+    description="Bloomberg + Zerodha Inspired Financial Intelligence Hub",
     version="1.0.0"
 )
 
