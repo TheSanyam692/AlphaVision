@@ -21,7 +21,7 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s"
 )
-logger = logging.getLogger("AlphaVision.Main")
+logger = logging.getLogger("TradeUp.Main")
 
 # Init Database
 logger.info("Initializing SQLite database...")
@@ -63,8 +63,8 @@ def read_root():
     index_file = os.path.join(static_path, "index.html")
     if os.path.exists(index_file):
         return FileResponse(index_file)
-    return {"message": "AlphaVision API running. Place index.html inside the static/ folder to load the dashboard UI."}
+    return {"message": "TradeUp API running. Place index.html inside the static/ folder to load the dashboard UI."}
 
 if __name__ == "__main__":
-    logger.info(f"Starting AlphaVision server on port {PORT}...")
+    logger.info(f"Starting TradeUp server on port {PORT}...")
     uvicorn.run("app.main:app", host="0.0.0.0", port=PORT, reload=True)
