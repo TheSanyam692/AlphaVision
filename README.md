@@ -1,6 +1,6 @@
-# AlphaVision - AI Stock Prediction & Financial Intelligence Platform
+# TradeUp - AI Stock Prediction & Financial Intelligence Platform
 
-AlphaVision is a production-ready financial analytics and next-day stock price forecasting dashboard. It combines a high-performance **FastAPI backend** (serving ML prediction APIs and NLP news sentiment analysis) with a stunning **Bloomberg-style dark mode Vanilla CSS Single Page Application (SPA)**.
+TradeUp is a production-ready financial analytics and next-day stock price forecasting dashboard. It combines a high-performance **FastAPI backend** (serving ML prediction APIs and NLP news sentiment analysis) with a stunning **Bloomberg-style dark mode Vanilla CSS Single Page Application (SPA)**.
 
 ---
 

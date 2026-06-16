@@ -23,10 +23,18 @@
     <!-- Main Header -->
     <header class="navbar">
         <div class="logo" id="nav-logo" style="cursor: pointer;">
-            <!-- Creative SVG Logo: Rising chevrons with green accent -->
-            <svg class="logo-svg" viewBox="0 0 24 24" width="28" height="28">
-                <path d="M4 18l6-6 4 4 8-8" stroke="#00d09c" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M22 12V8h-4" stroke="#00d09c" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Creative SVG Logo: Dynamic 'T' + rising trend 'U' -->
+            <svg class="logo-svg" viewBox="0 0 100 100" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="logo-grad-nav" x1="0%" y1="100%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#0052FF" />
+                        <stop offset="100%" stop-color="#00D09C" />
+                    </linearGradient>
+                </defs>
+                <path d="M15 25H55" stroke="url(#logo-grad-nav)" stroke-width="10" stroke-linecap="round"/>
+                <path d="M35 25V75" stroke="url(#logo-grad-nav)" stroke-width="10" stroke-linecap="round"/>
+                <path d="M55 45V65C55 73.284 61.716 80 70 80C78.284 80 85 73.284 85 65V30" stroke="#00D09C" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M75 40L85 30L95 40" stroke="#00D09C" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
             <span class="logo-title">Trade<span class="logo-highlight">Up</span></span>
             <span class="badge-ai">AI INSIGHTS</span>
@@ -59,9 +67,17 @@
     <section class="landing-panel" id="landing-view">
         <div class="landing-content">
             <div class="landing-logo-box">
-                <svg class="landing-logo-svg" viewBox="0 0 24 24" width="72" height="72">
-                    <path d="M4 18l6-6 4 4 8-8" stroke="#00d09c" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M22 12V8h-4" stroke="#00d09c" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <svg class="landing-logo-svg" viewBox="0 0 100 100" width="72" height="72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="logo-grad-land" x1="0%" y1="100%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#0052FF" />
+                            <stop offset="100%" stop-color="#00D09C" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M15 25H55" stroke="url(#logo-grad-land)" stroke-width="10" stroke-linecap="round"/>
+                    <path d="M35 25V75" stroke="url(#logo-grad-land)" stroke-width="10" stroke-linecap="round"/>
+                    <path d="M55 45V65C55 73.284 61.716 80 70 80C78.284 80 85 73.284 85 65V30" stroke="#00D09C" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M75 40L85 30L95 40" stroke="#00D09C" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <h1 class="landing-title">Trade<span class="logo-highlight">Up</span></h1>
                 <p class="landing-tagline">AI-Powered Next-Day Forecasts for Indian Stocks</p>

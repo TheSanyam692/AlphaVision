@@ -6,7 +6,7 @@ from app.features import generate_features
 from app.ml_engine import EnsemblePredictor
 import logging
 
-logger = logging.getLogger("AlphaVision.Backtester")
+logger = logging.getLogger("TradeUp.Backtester")
 
 class BacktestingEngine:
     @staticmethod
