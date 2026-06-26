@@ -73,7 +73,7 @@ def query_assistant(data: MessageInput, db: Session = Depends(get_db)):
         )
     else:
         reply = (
-            f"Hi! I am your TradeUp AI Markets Assistant. Analyzing **{sym}**:\n"
+            f"Hi! I am your TradeGo AI Markets Assistant. Analyzing **{sym}**:\n"
             f"• Live price: ₹{live['price']} ({live['change_percent']}%)\n"
             f"• AI signal: **{pred['recommendation']}** (Confidence: {pred['confidence_score']}%)\n"
             f"• Next-day Predicted Close: ₹{pred['predicted_close']}\n"

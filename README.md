@@ -1,6 +1,6 @@
-# TradeUp - AI Stock Prediction & Financial Intelligence Platform
+# TradeGo - AI Powered Stock Intelligence Platform
 
-TradeUp is a production-ready financial analytics and next-day stock price forecasting dashboard. It combines a high-performance **FastAPI backend** (serving ML prediction APIs and NLP news sentiment analysis) with a stunning **Bloomberg-style dark mode Vanilla CSS Single Page Application (SPA)**.
+TradeGo is a production-ready financial analytics and next-day stock price forecasting dashboard. It combines a high-performance **FastAPI backend** (serving ML prediction APIs and NLP news sentiment analysis) with a stunning **Bloomberg-style dark mode Vanilla CSS Single Page Application (SPA)**.
 
 ---
 

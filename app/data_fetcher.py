@@ -7,7 +7,7 @@ import logging
 from app.config import ALPHA_VANTAGE_KEY
 
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("TradeUp.DataFetcher")
+logger = logging.getLogger("TradeGo.DataFetcher")
 
 # In-Memory cache dictionary to make the web app highly responsive (Fast-API level latency)
 MEM_CACHE = {}

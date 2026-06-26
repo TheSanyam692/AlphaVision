@@ -27,7 +27,7 @@ except ImportError:
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.preprocessing import StandardScaler
 
-logger = logging.getLogger("TradeUp.MLEngine")
+logger = logging.getLogger("TradeGo.MLEngine")
 
 # PyTorch Deep Learning Modules if Torch is available
 if TORCH_AVAILABLE:

@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loadWatchlist();
     loadPortfolio();
 
-    // Reset view to landing state on click of the TradeUp Logo
+    // Reset view to landing state on click of the TradeGo Logo
     document.getElementById("nav-logo").addEventListener("click", resetToLanding);
 
     // Event Listeners for Navigation Search

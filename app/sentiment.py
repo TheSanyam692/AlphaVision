@@ -2,7 +2,7 @@ import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import logging
 
-logger = logging.getLogger("TradeUp.Sentiment")
+logger = logging.getLogger("TradeGo.Sentiment")
 
 # Ensure NLTK vader lexicon is available
 try:
